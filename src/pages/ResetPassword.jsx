@@ -1,4 +1,3 @@
-// AuthComponents/ResetPassword.js
 import React, { useEffect, useState } from 'react';
 import { useRessetPasswordMutation } from '../redux/api/apiSlice';
 import { toast } from 'react-toastify';

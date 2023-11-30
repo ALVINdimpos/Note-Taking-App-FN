@@ -1,4 +1,3 @@
-// NoteComponents/UpdateNote.js
 import React, { useState, useEffect } from 'react';
 
 const UpdateNote = ({ onUpdateNote, noteId, initialData, buttonName }) => {
@@ -17,7 +16,6 @@ const UpdateNote = ({ onUpdateNote, noteId, initialData, buttonName }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Implement update note logic and API call here
         onUpdateNote(noteId, formData);
     };
 

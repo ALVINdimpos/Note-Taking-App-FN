@@ -1,4 +1,3 @@
-// NoteComponents/DeleteNote.js
 import React from 'react';
 
 const DeleteNote = ({ onDeleteNote, buttonName }) => {

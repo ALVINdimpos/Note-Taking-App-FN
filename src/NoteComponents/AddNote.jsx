@@ -1,4 +1,3 @@
-// NoteComponents/AddNote.js
 import React, { useState } from 'react';
 
 const AddNote = ({ onAddNote ,buttonName }) => {
@@ -13,7 +12,6 @@ const AddNote = ({ onAddNote ,buttonName }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Implement add note logic and API call here
         onAddNote(formData);
         // Reset form fields
         setFormData({ title: '', content: '' });

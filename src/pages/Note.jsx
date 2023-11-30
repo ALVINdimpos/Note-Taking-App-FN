@@ -1,4 +1,3 @@
-// NotePage.js
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import AddNote from '../NoteComponents/AddNote';
@@ -12,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useLazyGetNoteQuery, useCreateNoteMutation, useDeleteNoteMutation, useUpdateNoteMutation } from '../redux/api/apiSlice';
 import './note.css';
-Modal.setAppElement('#root'); // Set the root element for accessibility
+Modal.setAppElement('#root');
 
 const NotePage = () => {
     const [notes, setNotes] = useState([]);
@@ -20,19 +19,35 @@ const NotePage = () => {
     const [isAddModalOpen, setAddModalOpen] = useState(false);
     const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
     const [getNote, { data, error, isSuccess, isLoading:noteIsLoading }] = useLazyGetNoteQuery();
     const [createNote, { data: createNoteData, error: createNoteError, isSuccess: createNoteSuccess,isLoading:createNoteIsLoading}] = useCreateNoteMutation();
     const [deleteNote, { data: deleteNoteData, error: deleteNoteError, isSuccess: deleteNoteSuccess,isLoading:deleteNoteIsLoading}] = useDeleteNoteMutation();
     const [updateNote, { data: updateNoteData, error: updateNoteError, isSuccess: updateNoteSuccess,isLoading:updateNoteIsLoading}] = useUpdateNoteMutation();
+    
     const getNoteData = async () => {
         try {
+            console.log('Search Term:', searchTerm);
+
             const { data: responseData } = await getNote().unwrap();
-            setNotes(responseData);
+
+            // Filter notes based on the search term
+            const filteredNotes = responseData.filter((note) =>
+                note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                note.content.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            console.log('Filtered Notes:', filteredNotes);
+
+            setNotes(filteredNotes);
         } catch (error) {
             console.error('Error getting notes', error);
             toast.error('Error getting notes');
         }
-    }
+    };
+
+
     useEffect(() => {
         getNoteData();
     }, []);
@@ -97,13 +112,16 @@ const NotePage = () => {
         window.location.href = '/';
     }
     return (
-        <div>
+        <div className='notes'>
             <Header
-                onSearch={() => {
-                    console.log('Search submitted:');
+                onSearch={(term) => {
+                    console.log('Search Term in Header:', term);
+                    setSearchTerm(term);
                 }}
                 onLogout={Logout}
             />
+
+
             <button
                 onClick={() => setAddModalOpen(true)}
                 className="w-fill bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 focus:outline-none m-4"
@@ -121,7 +139,9 @@ const NotePage = () => {
                     setSelectedNote(noteId);
                     setUpdateModalOpen(true);
                 }}
+                searchTerm={searchTerm}
             />
+
             <Modal
                 isOpen={isAddModalOpen}
                 onRequestClose={() => setAddModalOpen(false)}

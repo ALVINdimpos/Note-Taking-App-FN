@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSetNewPasswordMutation } from '../redux/api/apiSlice';
+import zxcvbn from 'zxcvbn';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,9 +16,14 @@ const ChangePassword = () => {
     const navigate = useNavigate();
     const { token } = useParams();
     const [setNewPassword, { isLoading: setNewPasswordLoading, isSuccess: setNewPasswordSuccess, isError: setNewPasswordError, error: setNewPasswordErrorMessage }] = useSetNewPasswordMutation();
-
+    const [passwordStrength, setPasswordStrength] = useState(0);
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        // Update password strength
+        if (e.target.name === 'newPassword') {
+            const result = zxcvbn(e.target.value);
+            setPasswordStrength(result.score);
+        }
     };
 
     const handleSubmit = (e) => {
@@ -82,6 +88,19 @@ const ChangePassword = () => {
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                             required
                         />
+                        {/* Password strength meter */}
+                        {formData.newPassword && (
+                            <div className="mt-2">
+                                <progress
+                                    value={passwordStrength}
+                                    max="4"
+                                    className={`w-full progress-${passwordStrength}`}
+                                />
+                                <p className={`text-sm mt-1 text-${passwordStrengthColor(passwordStrength)}`}>
+                                    Password Strength: {passwordStrengthDescription(passwordStrength)}
+                                </p>
+                            </div>
+                        )}
                     </div>
                     <button
                         type="submit"
@@ -96,4 +115,37 @@ const ChangePassword = () => {
     );
 };
 
+// Helper functions for password strength indicator
+const passwordStrengthColor = (strength) => {
+    switch (strength) {
+        case 0:
+        case 1:
+            return 'red-500';
+        case 2:
+            return 'yellow-500';
+        case 3:
+            return 'blue-500';
+        case 4:
+            return 'green-500';
+        default:
+            return 'gray-500';
+    }
+};
+
+const passwordStrengthDescription = (strength) => {
+    switch (strength) {
+        case 0:
+            return 'Very Weak';
+        case 1:
+            return 'Weak';
+        case 2:
+            return 'Fair';
+        case 3:
+            return 'Strong';
+        case 4:
+            return 'Very Strong';
+        default:
+            return '';
+    }
+};
 export default ChangePassword;

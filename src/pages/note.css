@@ -22,3 +22,24 @@
   justify-content: center;
   align-items: center;
 }
+.notes {
+  position: relative;
+  height: 100vh;
+  text-rendering: optimizeLegibility;
+  z-index: 1; 
+}
+
+.notes::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url("../assets/notes.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 100%;
+  filter: blur(2px);
+  z-index: -1;
+}
