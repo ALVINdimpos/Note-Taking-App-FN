@@ -6,6 +6,7 @@ import ChangePassword from './pages/ChangePassword';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
 import Note from './pages/Note';
+import Dashboard from './pages/Dashboard';
 import './index.css';
 const App = () => {
   return (
@@ -17,7 +18,8 @@ const App = () => {
           <Route path="/change-password/:token" element={<ChangePassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/new-password" element={<NewPassword />} />
-        <Route path="/note" element={<Note />} />
+          <Route path="/note" element={<Note />} />
+          <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
     </div>

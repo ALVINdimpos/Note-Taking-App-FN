@@ -81,6 +81,31 @@ export const apiSlice = createApi({
           body: { currentPassword, newPassword },
         }),
       }),
+      getUsers: builder.query({
+        query: () => ({
+          url: `users`,
+          method: "GET",
+        }),
+      }),
+      deleteUser: builder.mutation({
+        query: ({ id }) => ({
+          url: `users/${id}`,
+          method: "DELETE",
+        }),
+      }),
+      getUserById: builder.query({
+        query: ({ id }) => ({
+          url: `users/${id}`,
+          method: "GET",
+        }),
+      }),
+      updateUser: builder.mutation({
+        query: ({ id, firstName, lastName, email }) => ({
+          url: `users/${id}`,
+          method: "PUT",
+          body: { firstName, lastName, email },
+        }),
+      }),
     };
   }
 });
@@ -95,5 +120,9 @@ export const {
   useRessetPasswordMutation,
   useSetNewPasswordMutation,
   useChangePasswordMutation,
+  useLazyGetUsersQuery,
+  useDeleteUserMutation,
+  useLazyGetUserByIdQuery,
+  useUpdateUserMutation,
 
 } = apiSlice;

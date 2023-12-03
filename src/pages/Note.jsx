@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import AddNote from '../NoteComponents/AddNote';
-import UpdateNote from '../NoteComponents/UpdateNote';
-import DisplayNotes from '../NoteComponents/DisplayNotes';
-import DeleteNote from '../NoteComponents/DeleteNote';
+import AddNote from '../Models/AddNote';
+import UpdateNote from '../Models/UpdateNote';
+import DisplayNotes from '../Models/DisplayNotes';
+import DeleteNote from '../Models/DeleteNote';
 import Header from '../conponent/Header';
 import Loader from '../conponent/Loader';
 import { toast } from 'react-toastify';
