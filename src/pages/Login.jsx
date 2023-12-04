@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLoginMutation } from '../redux/api/apiSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUser, setToken } from '../redux/Reducers/authSlice';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,9 @@ import './login.css';
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user } = useSelector((state) => state.auth);
+    //getting user from local storage
+    const user = JSON.parse(localStorage.getItem('user'));
+
     const [invalidLogin, setInvalidLogin] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -50,7 +52,20 @@ const Login = () => {
             setInvalidLogin(false);
             dispatch(setUser(loginData));
             dispatch(setToken(loginData?.token));
-            navigate('/note');
+            if (String(loginData.userRole) === '2') {
+                setSuccessMessage('Login successful, redirecting to admin panel');
+                setTimeout(() => {
+                    navigate('/dashboard');
+                }, 2000);
+                return;
+            }
+            else {
+                setSuccessMessage('Login successful, redirecting to notes');
+                setTimeout(() => {
+                    navigate('/note');
+                }, 2000);
+                return;
+            }
         } else if (loginError) {
             setInvalidLogin(true);
             setSuccessMessage('');

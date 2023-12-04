@@ -1,11 +1,23 @@
-import React, { useEffect } from 'react';
-import { useLazyGetUserByIdQuery } from '../redux/api/apiSlice';
+import React, { useEffect, useState } from 'react';
+import { useLazyGetUserByIdQuery, useUpdateUserMutation } from '../redux/api/apiSlice';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 const EditUserModal = () => {
     // Fetch user from the API
     const userId = localStorage.getItem('editUserId');
     const [getUserById, { data: user, isLoading, error }] = useLazyGetUserByIdQuery();
-    condst[userName, setUserName] = useState('');
-    const [email, setEmail] = useState('');
+    const [updateUser, { data: updateUserData, isLoading: updateUserLoading, error: updateUserError }] = useUpdateUserMutation();
+    useEffect(() => {
+        getUserByIdData();
+    }
+        , []);
+    const [userName, setUserName] = useState(
+        user?.data?.firstName
+    );
+    const [email, setEmail] = useState(
+        user?.data?.email
+    );
     const userNameHandler = (event) => {
         setUserName(event.target.value);
     };
@@ -18,27 +30,33 @@ const EditUserModal = () => {
             const { data: responseData } = await getUserById({
                 id: userId,
             }).unwrap();
-            console.log('User Data:', responseData);
-            // Update user state
         } catch (error) {
-            console.error('Error getting user', error);
+            console.log('Error getting user', error);
         }
     }
-    const handleUpdate = () => {
-        // Update user
-
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        updateUser({
+            id: userId,
+            firstName: userName,
+            email: email,
+        });
     }
-
     useEffect(() => {
-        getUserByIdData();
+        if (updateUserData) {
+            console.log('Update User Data:', updateUserData);
+            toast.success('User updated successfully');
+        }
+        if (updateUserError) {
+            toast.error(updateUserError?.data?.info || 'Error updating user');
+        }
     }
-        , []);
-console.log('User Data:', user);
+        , [updateUserData, updateUserError]);
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-8 w-1/3 rounded-md">
                 <h2 className="text-2xl font-semibold mb-4">Edit User</h2>
-                {/* Add form fields for editing user information */}
                 <form>
                     {/* Example: */}
                     <div className="mb-4">
@@ -54,7 +72,7 @@ console.log('User Data:', user);
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-600">
-                           Email
+                            Email
                         </label>
                         <input
                             type="email"
@@ -63,7 +81,7 @@ console.log('User Data:', user);
                             className="mt-1 p-2 border w-full rounded-md"
                         />
                     </div>
-        
+
                     <div className="flex justify-end">
                         <button onClick={handleUpdate} className="bg-blue-500 text-white py-2 px-4 rounded-md mr-2">
                             Save Changes
@@ -74,6 +92,7 @@ console.log('User Data:', user);
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };

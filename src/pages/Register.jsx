@@ -37,7 +37,7 @@ const Register = () => {
                 lastName: formData.lastName,
             });
         } catch (error) {
-            console.error('Register error:', error);
+           toast.error('Something went wrong');
         }
     };
 
@@ -47,7 +47,6 @@ const Register = () => {
             navigate('/');
         } else if (registerError) {
             toast.error(registerErrorMessage)
-            console.log('Register error:', registerErrorMessage);
         }
     }
         , [registerSuccess])

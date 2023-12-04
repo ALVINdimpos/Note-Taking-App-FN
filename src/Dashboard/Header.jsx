@@ -1,6 +1,6 @@
 // Header.js
 import React, { useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa'; // You may need to install the react-icons package
+import { FaUserCircle } from 'react-icons/fa'; 
 
 const Header = ({ onSearch, onLogout }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -8,7 +8,7 @@ const Header = ({ onSearch, onLogout }) => {
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
-
+    const user = JSON.parse(localStorage.getItem('user'));
     return (
         <header className="bg-blue-500 p-4 text-white flex justify-between items-center">
             <h1 className="text-2xl font-bold md:text-3xl ">Notes App</h1>
@@ -56,10 +56,9 @@ const Header = ({ onSearch, onLogout }) => {
                         </div>
                     )}
                 </div>
-
-                {/* User Name or Additional Info */}
-                {/* Replace with user information or name */}
-                <span className="hidden md:block">John Doe</span>
+                <span className="hidden md:block">
+                    {user?.userFistName}
+                </span>
             </div>
         </header>
     );

@@ -28,7 +28,6 @@ const NotePage = () => {
     
     const getNoteData = async () => {
         try {
-            console.log('Search Term:', searchTerm);
 
             const { data: responseData } = await getNote().unwrap();
 
@@ -38,11 +37,9 @@ const NotePage = () => {
                 note.content.toLowerCase().includes(searchTerm.toLowerCase())
             );
 
-            console.log('Filtered Notes:', filteredNotes);
-
             setNotes(filteredNotes);
         } catch (error) {
-            console.error('Error getting notes', error);
+            
             toast.error('Error getting notes');
         }
     };
@@ -79,7 +76,7 @@ const NotePage = () => {
             getNoteData();
         }
         else if (deleteNoteError) {
-            console.error('Error deleting note', deleteNoteError);
+           
             toast.error('Error deleting note');
         }
     }
@@ -90,7 +87,6 @@ const NotePage = () => {
             getNoteData();
         }
         else if (updateNoteError) {
-            console.error('Error updating note', updateNoteError);
             toast.error('Error updating note');
         }
     }
@@ -101,7 +97,6 @@ const NotePage = () => {
             getNoteData();
         }
         else if (createNoteError) {
-            console.error('Error creating note', createNoteError);
             toast.error('Error creating note');
         }
     }

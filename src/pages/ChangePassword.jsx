@@ -40,8 +40,9 @@ const ChangePassword = () => {
                 token: token.split('=')[1],
             });
         } catch (error) {
-            toast.error('Something went wrong');
-            console.error('ChangePassword error:', error);
+            toast.error(
+                error?.data?.info || 'Error setting new password'
+            );
         }
     };
 
@@ -51,8 +52,10 @@ const ChangePassword = () => {
             navigate('/');
         }
         if (setNewPasswordError) {
-            toast.error('Something went wrong');
-            console.log('ChangePassword error:', setNewPasswordErrorMessage);
+            toast.error(
+                setNewPasswordErrorMessage?.data?.info ||
+                'Error setting new password'
+            );
         }
     }, [setNewPasswordSuccess, setNewPasswordError]);
 

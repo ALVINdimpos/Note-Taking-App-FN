@@ -36,7 +36,7 @@ const UserTable = ({ onOpenDeleteModal, onOpenEditModal, onOpenUpdateRoleModal }
                             <td className="p-2 border">{user.id}</td>
                             <td className="p-2 border">{user.firstName} {user.lastName}</td>
                             <td className="p-2 border">{user.email}</td>
-                            <td className="p-2 border"> {user.roleId === 1 ? 'Admin' : user.roleId === 2 ? 'User' : 'Other Role'}</td>
+                            <td className="p-2 border"> {user.roleId === 2 ? 'Admin' : user.roleId === 1 ? 'User' : 'Other Role'}</td>
                             <td className="p-2 border">
                                 <button
                                     onClick={() => onOpenDeleteModal(user.id)}

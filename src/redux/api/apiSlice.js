@@ -100,10 +100,10 @@ export const apiSlice = createApi({
         }),
       }),
       updateUser: builder.mutation({
-        query: ({ id, firstName, lastName, email }) => ({
+        query: ({ id, firstName, lastName, email,password }) => ({
           url: `users/${id}`,
-          method: "PUT",
-          body: { firstName, lastName, email },
+          method: "PATCH",
+          body: { firstName, lastName, email,password },
         }),
       }),
     };

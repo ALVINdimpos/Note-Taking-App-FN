@@ -21,7 +21,7 @@ const ResetPassword = () => {
                 email: formData.email,
             });
         } catch (error) {
-            console.error('ResetPassword error:', error);
+            toast.error('Something went wrong');
         }
     };
     useEffect(() => {
