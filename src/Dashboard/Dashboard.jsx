@@ -5,12 +5,13 @@ import UserTable from "./UserTable";
 import EditUserModal from "../Models/EditUserModal";
 import DeleteUserModal from "../Models/DeleteUserModal";
 import UpdateRoleModal from "../Models/UpdateRoleModal";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isUpdateRoleModalOpen, setUpdateRoleModalOpen] = useState(false);
-
+  const navigate = useNavigate();
   // Function to open the Delete User Modal
   const openDeleteModal = (id) => {
     localStorage.setItem('deleteUserId', id);
@@ -27,6 +28,10 @@ const Dashboard = () => {
   const openUpdateRoleModal = () => {
     setUpdateRoleModalOpen(true);
   };
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
 
   // Function to close all modals
   const closeModals = () => {
@@ -41,7 +46,7 @@ const Dashboard = () => {
 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <Header />
+        <Header onLogout={handleLogout} />
 
         {/* Main Content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">

@@ -1,8 +1,9 @@
 // Header.js
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa'; 
-
+import { useNavigate } from 'react-router-dom';
 const Header = ({ onSearch, onLogout }) => {
+    const navigate =useNavigate()
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -44,7 +45,7 @@ const Header = ({ onSearch, onLogout }) => {
                                 </li>
                                 <li className="cursor-pointer" onClick={
                                     () => {
-                                        console.log('Change Password submitted:');
+                                        navigate('/new-password');
                                     }
                                 }>
                                     edit profile
